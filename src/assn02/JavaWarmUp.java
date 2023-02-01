@@ -13,9 +13,11 @@ public class JavaWarmUp {
             for (String str: result) {
                 System.out.println(result[1]);
                 // figure out how to add directories and code it so that all the necessary information is kept
+                // have to different dictionaries? one with the total amount (and averages) and one with the highest prices
             }
         }
         System.out.println("\nYou have entered:");
+        // code the output string
         for (String str : iteration)
             System.out.println(str);
     }
