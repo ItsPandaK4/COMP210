@@ -1,78 +1,108 @@
 package assn02;
+import java.time.LocalDate;
 import java.util.Scanner;
 import java.lang.String;
+class InputData {
+    String date;
+    String time;
+    String category;
+    double fee;
+    int quantity;
+    double duration;
+    double cost;
+}
 public class JavaWarmUp {
-    public static String[] max_price(String[] current_high, String[] current_array) {
-        double current = Double.parseDouble(current_array[3]);
-        double current_largest = Double.parseDouble(current_high[3]);
-        if (current >= current_largest) {
-            return current_array;
-        }
-        return current_high;
-    }
-
-    public static String[] min_price(String[] current_low, String[] current_array) {
-        double current = Double.parseDouble(current_array[3]);
-        double current_smallest = Double.parseDouble(current_low[3]);
-        if (current >= current_smallest) {
-            return current_array;
-        }
-        return current_low;
-    }
-
     public static void main(String[] args) {
-        Scanner user_input = new Scanner(System.in);
-        int iteration = Integer.parseInt(user_input.nextLine());
+        int greatest_fee = 0;
+        int lowest_fee = 0;
+        Double phone_fee = 0.0;
+        int phone_quantity = 0;
+        Double phone_cost = 0.0;
+        Double phone_duration = 0.0;
+        Double laptop_fee = 0.0;
+        int laptop_quantity = 0;
+        Double laptop_cost = 0.0;
+        Double laptop_duration = 0.0;
+        Double smart_watch_fee = 0.0;
+        int smart_watch_quantity = 0;
+        Double smart_watch_cost = 0.0;
+        Double smart_watch_duration = 0.0;
+        Scanner scanner = new Scanner(System.in);
+        int array_size = scanner.nextInt();
+        scanner.nextLine();
+        InputData[] current_data = new InputData[array_size];
+        for (int i = 0; i < array_size; i++) {
+            InputData new_data = new InputData();
+            String user_input = scanner.nextLine();
+            String[] array_of_input = user_input.split(" ", 0);
+            new_data.date = array_of_input[0];
+            new_data.time = array_of_input[1];
+            new_data.category = array_of_input[2];
+            new_data.fee = Double.parseDouble(array_of_input[3]);
+            new_data.quantity = Integer.parseInt(array_of_input[4]);
+            new_data.duration = Double.parseDouble(array_of_input[5]);
+            new_data.cost = Double.parseDouble(array_of_input[6]);
+            current_data[i] = new_data;
+        }
 
-        String[] array_of_largest = new String[7];
-        String[] array_of_smallest = new String[7];
-        Double[] array_of_laptop = new Double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-        Double[] array_of_phone = new Double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-        Double[] array_of_smart_watch = new Double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-
-        for (int i = 0; i < iteration; i++) {
-            String interaction = user_input.nextLine();
-            String[] array_of_input = interaction.split(" ", 0);
-            if (i == 0) {
-                array_of_largest = array_of_input;
-                array_of_smallest = array_of_input;
+        for (int i = 0; i < current_data.length; i++) {
+            double fee = current_data[i].fee;
+            if (fee <= current_data[lowest_fee].fee) {
+                lowest_fee = i;
             }
-            array_of_largest = max_price(array_of_largest, array_of_input);
-            array_of_smallest = min_price(array_of_smallest, array_of_input);
-
-            Double current_date = Double.parseDouble(array_of_input[0]);
-            Double current_time = Double.parseDouble(array_of_input[1]);
-            Double current_fee = Double.parseDouble(array_of_input[3]);
-            Double current_quantity = Double.parseDouble(array_of_input[4]);
-            Double current_cost = Double.parseDouble(array_of_input[5]);
-
-            Double[] current_array = new Double[]{current_date, current_time, current_fee, current_quantity, current_cost};
-
-            if (array_of_input[2].equals("laptop")) {
-                array_of_laptop[0] += current_array[0];
-                array_of_laptop[1] += current_array[1];
-                array_of_laptop[2] += current_array[2];
-                array_of_laptop[3] += current_array[3];
-                array_of_laptop[4] += current_array[4];
-                array_of_laptop[5] += 1;
-            }
-            if (array_of_input[2].equals("phone")) {
-                array_of_phone[0] += current_array[0];
-                array_of_phone[1] += current_array[1];
-                array_of_phone[2] += current_array[2];
-                array_of_phone[3] += current_array[3];
-                array_of_phone[4] += current_array[4];
-                array_of_phone[5] += 1;
-            }
-            if (array_of_input[2].equals("smart_watch")) {
-                array_of_smart_watch[0] += current_array[0];
-                array_of_smart_watch[1] += current_array[1];
-                array_of_smart_watch[2] += current_array[2];
-                array_of_smart_watch[3] += current_array[3];
-                array_of_smart_watch[4] += current_array[4];
-                array_of_smart_watch[5] += 1;
+            if (fee >= current_data[greatest_fee].fee) {
+                greatest_fee = i;
             }
         }
-        System.out.printf("Highest per unit assembling fee:\r");
+        for (int x = 0; x < current_data.length; x++) {
+            String category = current_data[x].category;
+            if (category == (current_data[0].category) || category == current_data[2].category) {
+                /*InputData laptop = new InputData();
+                laptop.date = current_data[x].date;
+                laptop.category = current_data[x].category;*/
+                laptop_duration = current_data[x].duration;
+                laptop_fee += current_data[x].fee * current_data[x].quantity;
+                laptop_quantity += current_data[x].quantity;
+                laptop_cost += current_data[x].cost + ((current_data[x].duration * 16));
+            }
+            if (category == (current_data[1].category) || category == current_data[3].category) {
+                /*InputData phone = new InputData();
+                phone.date = current_data[x].date;
+                phone.category = current_data[x].category;*/
+                phone_duration += current_data[x].duration * 16;
+                phone_fee += current_data[x].fee * current_data[x].quantity;
+                phone_quantity += current_data[x].quantity;
+                phone_cost += current_data[x].cost + ((current_data[x].duration * 16));
+            }
+            if (category == (current_data[4].category) || category == current_data[5].category) {
+                /*InputData smart_watch = new InputData();
+                smart_watch.date = current_data[x].date;
+                smart_watch.category = current_data[x].category;*/
+                smart_watch_duration = current_data[x].duration;
+                smart_watch_fee += current_data[x].fee * current_data[x].quantity;
+                smart_watch_quantity += current_data[x].quantity;
+                smart_watch_cost += current_data[x].cost + ((current_data[x].duration * 16));
+            }
+        }
+        System.out.println("Highest per unit assembling fee:");
+        System.out.println("\tWhen: " + current_data[greatest_fee].date + " " + current_data[greatest_fee].time);
+        System.out.println("\tCategory: " + current_data[greatest_fee].category);
+        System.out.println("\tPrice: " + current_data[greatest_fee].fee);
+        System.out.println("Lowest per unit assembling fee:");
+        System.out.println("\tWhen: " + current_data[lowest_fee].date + " " + current_data[lowest_fee].time);
+        System.out.println("\tCategory: " + current_data[lowest_fee].category);
+        System.out.println("\tPrice: " + current_data[lowest_fee].fee);
+        System.out.println("Statistic of phone");
+        System.out.println("\tQuantity: " + phone_quantity);
+        System.out.printf("\tAverage Assembling fee: %.2f\n", + phone_fee / phone_quantity);
+        System.out.printf("\tAverage Net Profit: %.2f\n", + ((phone_fee - + phone_cost)) / phone_quantity);
+        System.out.println("Statistic of laptop");
+        System.out.println("\tQuantity: " + laptop_quantity);
+        System.out.printf("\tAverage Assembling fee: %.2f\n", + laptop_fee / laptop_quantity);
+        System.out.printf("\tAverage Net Profit: %.2f\n", + ((laptop_fee - + laptop_cost)) / laptop_quantity);
+        System.out.println("Statistic of smart_watch");
+        System.out.println("\tQuantity: " + smart_watch_quantity);
+        System.out.printf("\tAverage Assembling fee: %.2f\n", + smart_watch_fee / smart_watch_quantity);
+        System.out.printf("\tAverage Net Profit: %.2f\n", + ((smart_watch_fee - + smart_watch_cost)) / smart_watch_quantity);
     }
 }
